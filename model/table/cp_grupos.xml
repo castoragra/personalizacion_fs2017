@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Document   : cp_grupos.xml
+    Description:
+        Estructura de la tabla cp_grupos.
+-->
+<tabla>
+    <columna>
+        <nombre>id</nombre>
+        <tipo>serial</tipo>
+        <nulo>NO</nulo>
+        <defecto>nextval('cp_grupos_id_seq'::regclass)</defecto>
+    </columna>
+    <columna>
+        <nombre>grupo</nombre>
+        <tipo>character varying(250)</tipo>
+        <nulo>NO</nulo>
+    </columna>
+    <columna>
+        <nombre>nombre_grupo</nombre>
+        <tipo>character varying(250)</tipo>
+        <nulo>NO</nulo>
+    </columna>
+    <restriccion>
+        <nombre>cp_grupos_pkey</nombre>
+        <consulta>PRIMARY KEY (id)</consulta>
+    </restriccion>
+</tabla>

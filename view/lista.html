@@ -1,0 +1,313 @@
+{include="header"}
+
+<script type="text/javascript">
+    function eliminar_valor(id)
+    {
+        bootbox.confirm({
+            message: '¿Estas seguro de que deseas eliminar este valor?',
+            title: '<b>Atención</b>',
+            callback: function (result) {
+                if (result) {
+                    document.getElementById('f_editar_valor' + id).accion.value = "eliminar_valor";
+                    document.getElementById('f_editar_valor' + id).submit();
+                    //window.location.href = "{$fsc->lista->url()}&delete=" + encodeURIComponent(id);
+                }
+            }
+        });
+    }
+    $(document).ready(function () {
+        $("#b_eliminar_lista").click(function (event) {
+            event.preventDefault();
+            bootbox.confirm({
+                message: '¿Estas seguro de que deseas eliminar este lista?',
+                title: '<b>Atención</b>',
+                callback: function (result) {
+                    if (result) {
+                        document.f_editar_lista.accion.value = "eliminar_lista";
+                        document.f_editar_lista.submit();
+                        //window.location.href = "{$fsc->url()}&delete=" + encodeURIComponent("{$fsc->lista->id}");
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="btn-group">
+                <a class="btn btn-sm btn-default" href="{$fsc->url()}">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    <span class="hidden-xs">&nbsp;Todos</span>
+                </a>
+                <a class="btn btn-sm btn-default" href="{$fsc->lista->url()}" title="Recargar la página">
+                    <span class="glyphicon glyphicon-refresh"></span>
+                </a>
+            </div>
+            <a class="btn btn-sm btn-success" href="{$fsc->url()}#nuevo" title="Nueva lista">
+                <span class="glyphicon glyphicon-plus"></span>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-header">
+                <h1>
+                    <span class="glyphicon glyphicon-edit"></span>
+                    Lista: 
+                    <small>{$fsc->lista->nombre}</small>
+                </h1>
+                <p class="help-block">
+                    Desde aquí puedes definir los valores posibles para este lista.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <form name="f_editar_lista" action="{$fsc->lista->url()}" method="post" class="form">
+            <input type="hidden" name="accion" value="editar_lista" /> 
+            <input type="hidden" name="id" value="{$fsc->lista->id}" /> 
+            <div class="col-sm-4">
+                Código:
+                <div class="form-group">
+                    <input type="text" name="codlista" value="{$fsc->lista->codlista}" class="form-control" autocomplete="off"/>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                Nombre:
+                <div class="form-group">
+                    <input type="text" name="nombre" value="{$fsc->lista->nombre}" class="form-control" autocomplete="off"/>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                Activo:
+                <div class="form-group"><!--
+                    {if="$fsc->lista->activo"}
+                    <input type="checkbox" name="activo" checked="" class="form-control" autocomplete="off"/>
+                    {else}
+                    <input type="checkbox" name="activo" class="form-control" autocomplete="off"/>
+                    {/if}-->
+                    
+                    
+                     <select name="activo" class="form-control">
+                        {if="$fsc->lista->activo"}
+                            <option value="1" selected>Si</option>
+                        <option value="0">No</option>
+                        {else}
+                        <option value="1">Si</option>
+                        <option value="0" selected>No</option>
+                        {/if}
+                     </select>
+                    
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="btn-group">
+                    <a href="#" id="b_eliminar_lista" class="btn btn-sm btn-danger">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                    <button class="btn btn-sm btn-primary" type="submit" onclick="this.disabled = true;
+                            this.form.submit();">
+                        <span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Guardar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Valores <span class="badge">{function="count($fsc->resultados)"}</span>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    
+                    
+<div class="table-responsive">
+   <table class="table table-hover" style="min-width: 800px;">
+      <thead>
+         <tr>
+            <th width="150" class="text-left">Código</th>
+            <th width="150" class="text-left">Cod. Alt</th>
+            <th width="*" class="text-left">Valor</th>
+            <th width="100" class="text-left">Orden</th>
+            <th width="50" class="text-center">Activo</th>
+            <th class="text-right" width="100">Acciones</th>
+         </tr>
+      </thead>
+      {loop="$fsc->resultados"}
+      <form name="f_editar_valor" id="f_editar_valor{$value->id}" action="{$fsc->lista->url()}" method="post" class="form" role="form">
+         <input type="hidden" name="id" value="{$value->id}"/>
+         <input type="hidden" name="accion" value="editar_valor" />
+         <tr{if="$value->activo"} class="success"{/if}>
+            <td><input class="form-control" type="text" name="codigo" value="{$value->codigo}" autocomplete="off"/></td>
+            <td><input class="form-control" type="text" name="codigo_alternativo" value="{$value->codigo_alternativo}" autocomplete="off"/></td>
+            <td><input class="form-control" type="text" name="valor" value="{$value->valor}" autocomplete="off"/></td>
+            <td><input class="form-control" type="number" name="orden" value="{$value->orden}" size="5" /></td>
+            <td class="text-center">
+               <div class="checkbox">
+                  <label title="¿Activo?">
+                     <input type="checkbox" name="activo" value="TRUE"{if="$value->activo"} checked=""{/if}/>
+                  </label>
+               </div>
+            </td>
+            <td class="text-right">
+               <div class="btn-group">
+                     <a href="#" class="btn btn-sm btn-danger" title="Eliminar este valor" onclick="eliminar_valor('{$value->id}')" title="Eliminar">
+                        <span class="glyphicon glyphicon-trash"></span>
+                     </a>
+                   
+                  <button class="btn btn-sm btn-primary" type="submit" title="Guardar">
+                     <span class="glyphicon glyphicon-floppy-disk"></span>
+                  </button>
+               </div>
+            </td>
+         </tr>
+      </form>
+        {else}
+        <div class="alert alert-warning">No hay valores creados.</div>
+      {/loop}
+      <form name="f_nueva_valor" action="{$fsc->lista->url()}" method="post" class="form" role="form">
+         <input type="hidden" name="accion" value="nuevo_valor" /> 
+         <tr class="info">
+            <td>
+                <input type="text" name="nuevo_codigo" class="form-control" placeholder="Nuevo código..." autocomplete="off" required=""/>
+            </td>
+            <td>
+                <input type="text" name="nuevo_codigo_alternativo" class="form-control" placeholder="Nuevo código alternativo..." autocomplete="off"/>
+            </td>
+            <td>
+                <input type="text" name="nuevo_valor" class="form-control" placeholder="Nuevo valor..." autocomplete="off" required=""/>
+            </td>
+            <td>
+                <input type="number" name="nuevo_orden" class="form-control" placeholder="Nuevo orden..." autocomplete="off" required="" value="{function="$fsc->max_orden_valor($fsc->lista->id)"}"/>
+            </td>
+            <td class="text-center">
+                <div class="checkbox">
+                    <label title="¿Activo?">
+                        <input type="checkbox" name="nuevo_activo" value="TRUE"/>
+                    </label>
+                </div>
+            </td>
+            <td class="text-right">
+               <div class="btn-group">
+                  <button class="btn btn-sm btn-primary" type="submit" title="Nuevo valor">
+                     <span class="glyphicon glyphicon-plus-sign"></span>
+                     <span class="hidden-sm">&nbsp;Nuevo</span>
+                  </button>
+               </div>
+            </td>
+         </tr>
+      </form>
+   </table>
+</div>                    
+                    
+                    
+                   <!-- {loop="$fsc->resultados"}
+                    <form name="f_editar_valor" action="{$fsc->lista->url()}" method="post" class="form">
+                        <input type="hidden" name="id" value="{$value->id}"/>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    Código:
+                                        <input type="text" name="codigo" value="{$value->codigo}" class="form-control" placeholder="Search for...">
+                                    
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    Código alternativo:
+                                        <input type="text" name="codigo_alternativo" value="{$value->codigo_alternativo}" class="form-control" placeholder="Search for...">
+                                </div>
+                            </div>
+
+
+                            <div class="col-xs-3">
+                                <div class="form-group">
+                                    Orden:
+                                        <input type="number" name="orden" value="{$value->orden}" class="form-control" placeholder="Search for...">
+
+                                </div>
+                            </div>
+
+                            <div class="col-xs-1">
+                                <div class="form-group">
+                                    Activo:
+                                    <div class="input-group">
+                                        {if="$value->activo"}
+                                        <input type="checkbox" name="activo" checked="" class="form-control" autocomplete="off"/>
+                                        {else}
+                                        <input type="checkbox" name="activo" class="form-control" autocomplete="off"/>
+                                        {/if}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-10 col-sm-10 col-xs-10">
+                                <div class="form-group">
+                                    Valor:
+                                        <input type="text" name="valor" value="{$value->valor}" class="form-control" placeholder="Search for...">
+                                </div>
+                            </div>
+                            <div class="col-md-1 col-sm-1 col-xs-1"><br/>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-danger" type="button" title="Eliminar este valor" onclick="eliminar_valor('{$value->id}')">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="submit">
+                                        <span class="glyphicon glyphicon-floppy-disk"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                       
+                    </form>
+                    {else}
+                    <div class="alert alert-warning">No hay valores creados.</div>
+                    {/loop}
+                </div>
+                <div class="panel-footer">
+                    <form name="f_nueva_valor" action="{$fsc->lista->url()}" method="post" class="form">
+                        <input type="hidden" name="accion" value="nuevo_valor" /> 
+                        <div class="input-group">
+                            <input type="text" name="nuevo_codigo" class="form-control" placeholder="Nuevo código..." autocomplete="off" required=""/>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" name="nuevo_codigo_alternativo" class="form-control" placeholder="Nuevo código alternativo..." autocomplete="off"/>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" name="nuevo_valor" class="form-control" placeholder="Nuevo valor..." autocomplete="off" required=""/>
+                        </div>
+                        <div class="input-group">
+                            <input type="number" name="nuevo_orden" class="form-control" placeholder="Nuevo orden..." autocomplete="off" required=""/>
+                        </div>
+                        <div class="input-group">
+                            <input type="checkbox" name="nuevo_activo" class="form-control" />
+                        </div>
+                        <div class="input-group">
+                                <span class="input-group-btn">
+                                <button class="btn btn-primary" type="submit">
+                                    <span class="glyphicon glyphicon-plus-sign"></span>
+                                    <span class="hidden-xs">&nbsp;Nuevo</span>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+                   -->
+            </div>
+        </div>
+    </div>
+</div>
+
+{include="footer"}

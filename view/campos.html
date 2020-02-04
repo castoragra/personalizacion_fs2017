@@ -1,0 +1,138 @@
+{include="header"}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#b_eliminar").click(function (event) {
+            event.preventDefault();
+            bootbox.confirm({
+                message: '¿Estas seguro de que deseas eliminar este campo?',
+                title: '<b>Atención</b>',
+                callback: function (result) {
+                    if (result) {
+                        document.getElementById('accion').value = "eliminar";
+                        document.getElementById('f_editar').submit();
+//                        document.f_editar.accion.value = "eliminar";
+//                        window.location.href = "{$fsc->url()}&delete=" + encodeURIComponent("{$fsc->campo->id}");
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="btn-group">
+                <a class="btn btn-sm btn-default" href="{$fsc->url_lista()}">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    <span class="hidden-xs">&nbsp;Todos</span>
+                </a>
+                <a class="btn btn-sm btn-default" href="{$fsc->url()}" title="Recargar la página">
+                    <span class="glyphicon glyphicon-refresh"></span>
+                </a>
+            </div>
+            <a class="btn btn-sm btn-success" href="{$fsc->url()}#nuevo" title="Nueva lista">
+                <span class="glyphicon glyphicon-plus"></span>
+            </a>
+        </div>
+    </div>
+    <!--
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-header">
+                <h1>
+                    <span class="glyphicon glyphicon-edit"></span>
+                    Campos personalizados
+                </h1>
+                <p class="help-block">
+                    Desde aquí puedes editar los campos personalizados que hay para los diferentes controladores.
+                </p>
+            </div>
+        </div>
+    </div>-->
+    <br/>
+    <div class="row">
+        <form name="f_editar" id="f_editar" action="{$fsc->url()}" method="post" class="form">
+            <input type="hidden" name="accion" id="accion" value="{if="$fsc->campo->id!=0"}editar{else}nuevo{/if}" /> 
+            <input type="hidden" name="id" id="id" value="{$fsc->campo->id}" /> 
+            <div class="col-sm-12">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <span class="glyphicon glyphicon-edit"></span>
+                            &nbsp; Campo personalizado
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <p class="help-block">
+                            Genera un campo personalizado que después puede ser usado en cualquiera de los controladores de la aplicación.
+                        </p>
+                        <div class="form-group">
+                            Controlador:
+                            <select class="form-control" name="controlador">
+                                {loop="$fsc->controladores"}
+                                <option value="{$value['controlador']}" {if="$value['controlador']===$fsc->campo->controlador"}selected=""{/if}>{$value['nombre_controlador']}</option>
+                                {/loop}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            Nombre:
+                            <input class="form-control" type="text" name="nombre" value="{$fsc->campo->nombre}" id="nombre" maxlength="250" placeholder="Nombre del campo" >
+                        </div>
+                        <div class="form-group">
+                            Tipo:
+                            <select class="form-control" name="tipo">
+                                {loop="$fsc->tipos"}
+                                <option value="{$value->codigo}" {if="$value->codigo===$fsc->campo->tipo"}selected=""{/if} {if="!$value->activo"}disabled=""{/if}>{$value->valor} {if="!$value->activo"}(Inactivo){/if}</option>
+                                {/loop}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            Campo:
+                            <input class="form-control" type="text" name="campo" value="{$fsc->campo->campo}" id="campo" maxlength="250" placeholder="Código del campo">
+                        </div>
+                        <div class="form-group">
+                            Requerido:
+                            <select class="form-control" name="requerido">
+                                {loop="$fsc->requerido"}
+                                <option value="{$value->codigo}" {if="$value->codigo===$fsc->campo->tipo"}selected=""{/if} {if="!$value->activo"}disabled=""{/if}>{$value->valor} {if="!$value->activo"}(Inactivo){/if}</option>
+                                {/loop}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            Mínimo:
+                            <input class="form-control" type="number" name="minimo" value="{$fsc->campo->minimo}" id="minimo" maxlength="18" placeholder="Valor/longitud mínimo">
+                        </div>
+                        <div class="form-group">
+                            Máximo
+                            <input class="form-control" type="number" name="maximo" value="{$fsc->campo->maximo}" id="maximo" maxlength="18" placeholder="Valor/longitud máxima">
+                        </div>
+                        <div class="form-group">
+                            Mensaje de error:
+                            <input class="form-control" type="text" name="msg_error" value="{$fsc->campo->msg_error}" id="msg_error" maxlength="2500" placeholder="Mensaje cuando hay un error con el campo">
+                        </div>
+                    </div>
+                    <div class="panel-footer text-right">
+
+                        <div class="btn-group">
+                            {if="$fsc->campo->id!=0"}
+                            <a href="#" id="b_eliminar" class="btn btn-sm btn-danger">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                            {/if}
+                            <button class="btn btn-sm btn-primary" type="submit" onclick="this.disabled = true;
+                                    this.form.submit();">
+                                <span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Guardar
+                            </button>
+                        </div>
+                    </div>        
+                </div>        
+            </div>
+        </form>
+    <br/>
+
+</div>
+
+{include="footer"}

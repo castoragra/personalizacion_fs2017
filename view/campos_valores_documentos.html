@@ -1,0 +1,99 @@
+{include="header2"}
+
+<script type="text/javascript">
+    
+    function eliminar_valor(id) {
+            event.preventDefault();
+            bootbox.confirm({
+                message: '¿Estas seguro de que deseas eliminar este campo?',
+                title: '<b>Atención</b>',
+                callback: function (result) {
+                    if (result) {
+                        document.getElementById('accion' + id).value = "eliminar";
+                        document.getElementById('f_editar_valor' + id).submit();
+                    }
+                }
+            });
+        }
+   
+</script>
+
+<div class="container-fluid">
+    <br/>
+
+    <div class="table-responsive">
+        <table class="table table-hover" style="max-width: 100%;">
+            <thead>
+                <tr>
+                    <th width="150" class="text-left hidden-xs">Campo</th>
+                    <th width="*" class="text-left">Valor</th>
+                    <th class="text-right" width="100">Acciones</th>
+                </tr>
+            </thead>
+            {loop="$fsc->campos"}
+            {function="$fsc->get_local_campo_valor($value->id)"}
+            <form name="f_editar_valor" id="f_editar_valor{$value->id}" action="{$fsc->url()}" method="post" class="form" role="form">
+                <input type="hidden" name="id" value="{$fsc->campo_valor->id}"/>
+                <input type="hidden" name="idcampo" value="{$value->id}"/>
+                <input type="hidden" name="idrelacion" value="{$fsc->idrelacion}"/>
+                <input type="hidden" name="accion" id="accion{$value->id}" value="{if="$fsc->campo_valor->id==0"}nuevo_valor{else}editar_valor{/if}" />
+                <tr>
+                    <td class="form-group hidden-xs">{$value->nombre}</td>
+                    <td>
+                        <label class="hidden-lg hidden-sm hidden-md">{$value->nombre}</label>
+                        {if="$value->tipo=='money'"}
+                            <input class="form-control" type="number" name="valor" value="{function="$fsc->campo_valor->valor"}" autocomplete="off" {if="$value->minimo!=0"} min="{$value->minimo}"{/if} {if="$value->maximo!=0"} max="{$value->maximo}"{/if}/>
+                        {else}
+                            {if="$value->tipo=='list'"}
+                                <select class="form-control" name="valor">
+                                    {if="!$value->requerido || !$fsc->campo_valor->valor"}
+                                    <option value="" ></option>
+                                    {/if}
+                                    {loop="$fsc->get_valores_lista($value->campo)"}
+                                    <option value="{$value->codigo}" {if="$value->codigo===$fsc->campo_valor->valor"}selected=""{/if} >{$value->valor} {if="!$value->activo"}(Inactivo){/if}</option>
+                                    {/loop}
+                                </select>
+                            {else}
+                                {if="$value->tipo=='date'"}
+                                    <input class="form-control datepicker" type="text" name="valor" value="{if="$fsc->campo_valor->valor"}{function="date('d-m-Y', strtotime($fsc->campo_valor->valor))"}{/if}" autocomplete="off"/> 
+                                {else}
+                                    {if="$value->tipo=='time'"}
+                                        <input class="form-control timepicker" type="text" name="valor" value="{function="$fsc->campo_valor->valor"}" autocomplete="off"/> 
+                                    {else}
+                                        {if="$value->tipo=='number'"}
+                                            <input class="form-control" type="{$value->tipo}" name="valor" value="{function="$fsc->campo_valor->valor"}" autocomplete="off" {if="$value->minimo!=0"} min="{$value->minimo}"{/if} {if="$value->maximo!=0"} max="{$value->maximo}"{/if}/>                
+                                        {else}
+                                        <input class="form-control" type="{$value->tipo}" name="valor" value="{function="$fsc->campo_valor->valor"}" autocomplete="off" {if="$value->minimo!=0"} min="{$value->minimo}"{/if} {if="$value->maximo!=0"} maxlength="{$value->maximo}"{/if}/>                
+                                        {/if}  
+                                    {/if}                
+                                {/if}                   
+                            {/if}          
+                        {/if}
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+
+                            {if="!$value->requerido && $fsc->campo_valor->id"}
+
+                            <a href="#" class="btn btn-sm btn-danger" title="Eliminar este valor" onclick="eliminar_valor('{$value->id}')" title="Eliminar">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+
+                            {/if}
+                            <button class="btn btn-sm btn-primary" type="submit" title="Guardar">
+                                <span class="glyphicon glyphicon-floppy-disk"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </form>
+            {else}
+            <div class="alert alert-warning">No hay campos personalizados para este controlador.</div>
+            {/loop}
+        </table>
+    </div>         
+
+
+</div>
+
+{include="footer2"}

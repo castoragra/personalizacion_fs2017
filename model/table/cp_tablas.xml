@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Document   : cp_tablas.xml
+    Description:
+        Estructura de la tabla cp_tablas
+-->
+<tabla>
+    <columna>
+        <nombre>id</nombre>
+        <tipo>serial</tipo>
+        <nulo>NO</nulo>
+        <defecto>nextval('cp_tablas_id_seq'::regclass)</defecto>
+    </columna>
+    <columna>
+        <nombre>idgrupo</nombre>
+        <tipo>integer</tipo>
+    </columna>
+    <columna>
+        <nombre>tabla</nombre>
+        <tipo>character varying(250)</tipo>
+        <nulo>NO</nulo>
+    </columna>
+    <columna>
+        <nombre>controlador</nombre>
+        <tipo>character varying(250)</tipo>
+        <nulo>NO</nulo>
+    </columna>
+    <columna>
+        <nombre>nombre_controlador</nombre>
+        <tipo>character varying(250)</tipo>
+        <nulo>NO</nulo>
+    </columna>
+    
+    <columna>
+        <nombre>columna_id</nombre>
+        <tipo>character varying(250)</tipo>
+        <nulo>NO</nulo>
+    </columna>
+    <columna>
+        <nombre>id_columna</nombre>
+        <tipo>character varying(250)</tipo>
+        <nulo>NO</nulo>
+    </columna>
+    
+    <columna>
+        <nombre>nombre</nombre>
+        <tipo>character varying(250)</tipo>
+        <nulo>NO</nulo>
+    </columna>
+    <columna>
+        <nombre>nombre_columna</nombre>
+        <tipo>character varying(250)</tipo>
+        <nulo>NO</nulo>
+    </columna>
+    
+    <columna>
+        <nombre>numero</nombre>
+        <tipo>character varying(250)</tipo>
+        <nulo>NO</nulo>
+    </columna>
+    <columna>
+        <nombre>numero_columna</nombre>
+        <tipo>character varying(250)</tipo>
+        <nulo>NO</nulo>
+    </columna>
+     
+    <columna>
+        <nombre>fecha</nombre>
+        <tipo>character varying(10)</tipo>
+    </columna>
+    <columna>
+        <nombre>fecha_columna</nombre>
+        <tipo>character varying(250)</tipo>
+        <nulo>NO</nulo>
+    </columna>
+     
+    <columna>
+        <nombre>importe</nombre>
+        <tipo>character varying(10)</tipo>
+    </columna>
+    <columna>
+        <nombre>importe_euros</nombre>
+        <tipo>character varying(250)</tipo>
+        <nulo>NO</nulo>
+    </columna>
+    <columna>
+        <nombre>importe_columna</nombre>
+        <tipo>character varying(250)</tipo>
+        <nulo>NO</nulo>
+    </columna>
+    
+    <columna>
+        <nombre>sumatorio_importe</nombre>
+        <tipo>boolean</tipo>
+    </columna>
+
+    <restriccion>
+        <nombre>cp_tablas_pkey</nombre>
+        <consulta>PRIMARY KEY (id)</consulta>
+    </restriccion>
+</tabla>

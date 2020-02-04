@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Document   : campos.xml
+    Description:
+        Estructura de la tabla documentosfac.
+-->
+<tabla>
+    <columna>
+        <nombre>id</nombre>
+        <tipo>serial</tipo>
+        <nulo>NO</nulo>
+        <defecto>nextval('campos_id_seq'::regclass)</defecto>
+    </columna>
+    <columna>
+        <nombre>controlador</nombre>
+        <tipo>character varying(250)</tipo>
+        <nulo>NO</nulo>
+    </columna>
+    <columna>
+        <nombre>campo</nombre>
+        <tipo>character varying(250)</tipo>
+        <nulo>NO</nulo>
+    </columna>
+    <columna>
+        <nombre>nombre</nombre>
+        <tipo>character varying(250)</tipo>
+        <nulo>NO</nulo>
+    </columna>
+    <columna>
+        <nombre>tipo</nombre>
+        <tipo>character varying(250)</tipo>
+        <nulo>NO</nulo>
+    </columna>
+    <columna>
+        <nombre>requerido</nombre>
+        <tipo>boolean</tipo>
+        <nulo>NO</nulo>
+    </columna>
+    <columna>
+        <nombre>minimo</nombre>
+        <tipo>integer</tipo>
+    </columna>
+    <columna>
+        <nombre>maximo</nombre>
+        <tipo>integer</tipo>
+    </columna>
+    <columna>
+        <nombre>msg_error</nombre>
+        <tipo>character varying(2500)</tipo>
+        <nulo>NO</nulo>
+    </columna>
+    <restriccion>
+        <nombre>campos_pkey</nombre>
+        <consulta>PRIMARY KEY (id)</consulta>
+    </restriccion>
+</tabla>

@@ -1,0 +1,354 @@
+{include="header"}
+
+<script type="text/javascript">
+    function clean_cliente()
+    {
+        document.f_custom_search.ac_cliente.value = '';
+        document.f_custom_search.codcliente.value = '';
+        document.f_custom_search.ac_cliente.focus();
+        document.f_custom_search.submit();
+    }
+    function clean_proveedor()
+    {
+        document.f_custom_search.ac_proveedor.value = '';
+        document.f_custom_search.codproveedor.value = '';
+        document.f_custom_search.ac_proveedor.focus();
+        document.f_custom_search.submit();
+    }
+    function clean_articulo()
+    {
+        document.f_custom_search.ac_articulo.value = '';
+        document.f_custom_search.referencia.value = '';
+        document.f_custom_search.ac_articulo.focus();
+        document.f_custom_search.submit();
+    }
+
+    function changeCampo() {
+        $('#valor').val('-1');
+        buscar();
+    }
+
+    function buscar() {
+        $('#generar').val('');
+        $('#f_custom_search').attr('target', '_self');
+        $('#f_custom_search').submit();
+    }
+
+    function generar_pdf() {
+        $('#generar').val('pdf');
+        $('#f_custom_search').attr('target', '_blank');
+        $('#f_custom_search').submit();
+    }
+    
+    $(document).ready(function () {
+        $("#ac_cliente").autocomplete({
+            serviceUrl: '{$fsc->url()}',
+            paramName: 'buscar_cliente',
+            onSelect: function (suggestion) {
+                if (suggestion)
+                {
+                    if (document.f_custom_search.codcliente.value != suggestion.data && suggestion.data != '')
+                    {
+                        document.f_custom_search.codcliente.value = suggestion.data;
+                        document.f_custom_search.submit();
+                    }
+                }
+            }
+        });
+        $("#ac_proveedor").autocomplete({
+            serviceUrl: '{$fsc->url()}',
+            paramName: 'buscar_proveedor',
+            onSelect: function (suggestion) {
+                if (suggestion)
+                {
+                    if (document.f_custom_search.codproveedor.value != suggestion.data && suggestion.data != '')
+                    {
+                        document.f_custom_search.codproveedor.value = suggestion.data;
+                        document.f_custom_search.submit();
+                    }
+                }
+            }
+        });
+        $("#ac_articulo").autocomplete({
+            serviceUrl: '{$fsc->url()}',
+            paramName: 'buscar_articulo',
+            onSelect: function (suggestion) {
+                if (suggestion)
+                {
+                    if (document.f_custom_search.referencia.value != suggestion.data && suggestion.data != '')
+                    {
+                        document.f_custom_search.referencia.value = suggestion.data;
+                        document.f_custom_search.submit();
+                    }
+                }
+            }
+        });
+        $('[data-toggle="popover"]').popover({
+            placement: 'bottom',
+            trigger: 'hover',
+            content: function () {
+                return '<div class="thumbnail" style="margin: 0px;"><img src="' + $(this).data('img') + '" /></a>';
+            }
+        });
+
+
+    });
+
+</script>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-header">
+                <h1>
+                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                    Valores personalizados
+                    <span class="btn-group">
+                        <a class="btn btn-xs btn-default" href="{$fsc->url()}" title="Recargar la página">
+                            <span class="glyphicon glyphicon-refresh"></span>
+                        </a>
+                        {if="$fsc->page->is_default()"}
+                        <a class="btn btn-xs btn-default active" href="{$fsc->url()}&amp;default_page=FALSE" title="desmarcar como página de inicio">
+                            <span class="glyphicon glyphicon-home"></span>
+                        </a>
+                        {else}
+                        <a class="btn btn-xs btn-default" href="{$fsc->url()}&amp;default_page=TRUE" title="marcar como página de inicio">
+                            <span class="glyphicon glyphicon-home"></span>
+                        </a>
+                        {/if}
+                    </span>
+                </h1>
+                <p class="help-block">
+                    Listado de valores de los campos personalizados en los diferentes controladores.
+                </p>
+            </div>
+            <ul class="nav nav-tabs">
+                {loop="$fsc->get_grupos()"}
+                <li{if="$fsc->mostrar==$value->grupo"} class="active"{/if}>
+                    <a href="{$fsc->url()}&mostrar={$value->grupo}">
+                        <span class="text-capitalize hidden-xs">{$value->nombre_grupo}</span>
+                        <span class="visible-xs">{$value->nombre_grupo}</span>
+                    </a>
+                </li>
+                {/loop}
+                <!--                <li{if="$fsc->mostrar=='compras'"} class="active"{/if}>
+                                    <a href="{$fsc->url()}&mostrar=compras">
+                                        <span class="text-capitalize hidden-xs">Compras</span>
+                                        <span class="visible-xs">Compras</span>
+                                    </a>
+                                </li>
+                                <li{if="$fsc->mostrar=='ventas'"} class="active"{/if}>
+                                    <a href="{$fsc->url()}&mostrar=ventas">
+                                        <span class="text-capitalize hidden-xs">Ventas</span>
+                                        <span class="visible-xs">Ventas</span>
+                                    </a>
+                                </li>-->
+            </ul>
+            <br/>
+        </div>
+    </div>
+    <form name="f_custom_search" id="f_custom_search" action="{$fsc->url()}" method="post" class="form">
+        <input type="hidden" name="codcliente" value="{$fsc->cliente->codcliente}"/>
+        <input type="hidden" name="codproveedor" value="{$fsc->proveedor->codproveedor}"/>
+        <input type="hidden" name="mostrar" value="{$fsc->mostrar}" />
+        <input type="hidden" name="offset" value="{$fsc->offset}"/>
+        <input type="hidden" name="generar" id="generar" value=""/>
+        <div class="row">
+
+            {if="$fsc->mostrar=='ventas'"}
+            <div class="col-md-4 col-xs-12">
+                <div class="form-group">
+                    <b>Clientes</b>
+                    <div class="input-group">
+                        <div class="input-group-addon ">
+                            <i class="fa fa-users" aria-hidden="true"></i>
+                        </div>
+                        {if="$fsc->cliente"}
+                        <input class="form-control" type="text" name="ac_cliente" value="{$fsc->cliente->nombre}" id="ac_cliente" autocomplete="off"/>
+                        {else}
+                        <input class="form-control" type="text" name="ac_cliente" id="ac_cliente" placeholder="Cualquier cliente" autocomplete="off"/>
+                        {/if}
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" onclick="clean_cliente()">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {elseif="$fsc->mostrar=='compras'"}
+            <div class="col-md-4 col-xs-12">   
+                <div class="form-group">
+                    <b>Proveedores</b>
+                    <div class="input-group">
+                        <div class="input-group-addon ">
+                            <i class="fa fa-users" aria-hidden="true"></i>
+                        </div>
+                        {if="$fsc->proveedor"}
+                        <input class="form-control" type="text" name="ac_proveedor" value="{$fsc->proveedor->nombre}" id="ac_proveedor" autocomplete="off"/>
+                        {else}
+                        <input class="form-control" type="text" name="ac_proveedor" id="ac_proveedor" placeholder="Cualquier proveedor" autocomplete="off"/>
+                        {/if}
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" onclick="clean_proveedor()">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {elseif="$fsc->mostrar=='articulos'"}
+            <div class="col-md-4 col-xs-12">   
+                <div class="form-group">
+                    <b>Artículos</b>
+                    <div class="input-group">
+                        <div class="input-group-addon ">
+                            <i class="glyphicon glyphicon-list" aria-hidden="true"></i>
+                        </div>
+                        {if="$fsc->articulo"}
+                        <input class="form-control" type="text" name="ac_articulo" value="{$fsc->articulo->descripcion}" id="ac_articulo" autocomplete="off"/>
+                        {else}
+                        <input class="form-control" type="text" name="ac_articulo" id="ac_articulo" placeholder="Cualquier artículo" autocomplete="off"/>
+                        {/if}
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" onclick="clean_articulo()">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {/if}
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Tipo de documento</label>
+                    <select name="tipo" class="form-control" onchange="javascript:buscar()">  
+                        {loop="$fsc->get_nombres_controladores($fsc->mostrar)"}
+                        <option value="{$value['controlador']}" {if="$fsc->tipo==$value['controlador']"} selected=""{/if}>{$value['nombre_controlador']}</option>
+                        {/loop} 
+                    </select>
+                </div>
+            </div>
+            {if="$fsc->mostrar!='articulos'"}
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Fecha Desde</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                        </div>
+                        <input type="text" name="desde" value="{if="$fsc->desde"}{$fsc->desde}{/if}" class="form-control datepicker" placeholder="Desde" autocomplete="off" onchange="javascript:buscar()"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Fecha Hasta</label>
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                        </div>
+                        <input type="text" name="hasta" value="{if="$fsc->hasta"}{$fsc->hasta}{/if}" class="form-control datepicker" placeholder="Hasta" autocomplete="off" onchange="javascript:buscar()"/>
+                    </div>
+                </div>
+            </div>
+            {/if}
+
+            {if="count($fsc->get_campos())"}
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>Campo</label>
+                    <select name="campo" class="form-control" onchange="javascript:changeCampo()">  
+                        <option value="" {if="$fsc->campo->campo==''"} selected=""{/if} ></option>
+                        {loop="$fsc->campos"}
+                        <option value="{$value->campo}" {if="$fsc->campo->campo==$value->campo"} selected=""{/if} >{$value->nombre}</option>
+                        {/loop} 
+                    </select>
+                </div>
+            </div>
+            {if="count($fsc->get_valores_campo($fsc->campo->campo))"}
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Valor</label>
+                    <select name="valor" valor="valor" class="form-control" onchange="javascript:buscar()">  
+                        <option value="-1" {if="$fsc->valor==''"} selected=""{/if} ></option>
+                        {loop="$fsc->valores"}
+                        <option value="{$value['valor']}" {if="$fsc->valor==$value['valor']"} selected=""{/if} >{$value['nombre']}</option>
+                        {/loop} 
+                    </select>
+                </div>
+            </div>
+            {/if}
+            {/if}
+            {if="$fsc->totalresultados"}
+            <div class="col-md-2">
+                <div>
+                    <label>Generar PDF</label>
+                </div>
+                <a class="btn btn-sm btn-info" href="javascript:generar_pdf()" title="Descargar PDF">
+                    <span class="glyphicon glyphicon-download-alt"></span>
+                    <span class="hidden-sm">&nbsp;PDF</span>
+                </a>
+            </div>
+            {/if}
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class=" text-left">Código</th>
+                            {if="$fsc->totalresultados->fecha!=''"}
+                            <th class=" text-left">{$fsc->totalresultados->fecha_columna}</th>
+                            {/if}
+                            <th class=" text-left hidden-xs">Nombre</th>
+                            <th class=" text-left">Campo</th>
+                            <th class=" text-left">Valor</th>
+                            {if="$fsc->totalresultados->importe!=''"}
+                            <th class=" text-left">{$fsc->totalresultados->importe_columna}</th>
+                            {/if}
+                        </tr>
+                    </thead>
+
+                    {function="$fsc->find()"}
+                    {loop="$fsc->resultados"}
+                    <tr>
+                        <td class="text-left">
+                            <a href="index.php?page={$value['controlador']}&{$fsc->totalresultados->id_columna}={$value['columna_id']}" target="_blank">{$value['columna_numero']}</a>
+                        </td>
+                        {if="$fsc->totalresultados->fecha!=''"}
+                        <td class="text-left">{function="date('d-m-Y', strtotime($value['columna_fecha']))"}</td>
+                        {/if}
+                        <td class="text-left hidden-xs">{$value['columna_nombre']}</td>
+                        <td class="text-left">{$value['nombre_campo']}</td>
+                        <td class="text-left">{if="$value['tipo']=='date'"}{function="date('d-m-Y', strtotime($value['valor']))"}{else}{$value['valor']}{/if}</td>
+                        {if="$fsc->totalresultados->importe!=''"}
+                        <td class="text-right" title="{$fsc->show_precio($fsc->euro_convert($value['columna_importe_euros'], $value['coddivisa'], $value['tasaconv']))}">
+                            {$fsc->show_precio($value['columna_importe'], $value['coddivisa'])}
+                        </td>
+                        {/if}
+                    </tr>
+                    {else}
+                    <tr class="warning">
+                        <td colspan="8">Sin resultados.</td>
+                    </tr>
+                    {/loop}
+
+                    {if="$fsc->totales_resultados"}
+                    <tr>
+                        <th class="hidden-sm"></th>
+                        <td colspan="{if="$fsc->totalresultados->fecha!=''"}6{else}5{/if}" class="text-right">
+                            {$fsc->totales_resultados_txt}
+                            {loop="$fsc->totales_resultados"}
+                            <br/><b>{$fsc->show_precio($value['total'],$value['coddivisa'],FALSE)}</b>
+                            {/loop}
+                        </td>
+                    </tr>
+                    {/if}
+                </table>
+            </div>
+        </div>
+    </div>
+    {include="footer"}

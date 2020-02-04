@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Document   : campos_valores.xml
+    Description:
+        Estructura de la tabla documentosfac.
+-->
+<tabla>
+    <columna>
+        <nombre>id</nombre>
+        <tipo>serial</tipo>
+        <nulo>NO</nulo>
+        <defecto>nextval('campos_valores_id_seq'::regclass)</defecto>
+    </columna>
+    <columna>
+        <nombre>idcampo</nombre>
+        <tipo>integer</tipo>
+        <nulo>NO</nulo>
+    </columna>
+    <columna>
+        <nombre>idrelacion</nombre>
+        <tipo>character varying(250)</tipo>
+        <nulo>YES</nulo>
+    </columna>
+    <columna>
+        <nombre>valor</nombre>
+        <tipo>character varying(2500)</tipo>
+        <nulo>NO</nulo>
+    </columna>
+    <restriccion>
+        <nombre>campos_valores_pkey</nombre>
+        <consulta>PRIMARY KEY (id)</consulta>
+    </restriccion>
+</tabla>

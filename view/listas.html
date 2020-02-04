@@ -1,0 +1,130 @@
+{include="header"}
+
+<script type="text/javascript">
+   $(document).ready(function() {   
+      if(window.location.hash.substring(1) == 'nuevo')
+      {
+         $("#modal_nueva_lista").modal('show');
+         document.f_nueva_lista.nuevo.focus();
+      }
+      $("#b_nueva_lista").click(function(event) {
+         event.preventDefault();
+         $("#modal_nueva_lista").modal('show');
+         document.f_nueva_lista.nuevo.focus();
+      });
+   });
+</script>
+
+<div class="container-fluid">
+   <div class="row">
+      <div class="col-sm-12">
+         <div class="btn-group">
+             {if="$fsc->url_back()!=$fsc->url()"}
+            <a class="btn btn-sm btn-default" href="{$fsc->url_back()}">
+               <span class="glyphicon glyphicon-arrow-left"></span>
+               <span class="hidden-xs">&nbsp;Atrás</span>
+            </a>
+             {/if}
+            <a class="btn btn-sm btn-default" href="{$fsc->url()}" title="Recargar la página">
+               <span class="glyphicon glyphicon-refresh"></span>
+            </a>
+         </div>
+         <a id="b_nueva_lista" class="btn btn-sm btn-success" href="#">
+            <span class="glyphicon glyphicon-plus"></span>
+            <span class="hidden-xs">&nbsp;Nuevo</span>
+         </a>
+         <div class="btn-group">
+            {loop="$fsc->extensions"}
+               {if="$value->type=='button'"}
+               <a href="index.php?page={$value->from}{$value->params}" class="btn btn-sm btn-default">{$value->text}</a>
+               {/if}
+            {/loop}
+         </div>
+      </div>
+   </div>
+</div>
+
+<div class="container-fluid">
+   <div class="row">
+      <div class="col-sm-12">
+         <div class="page-header">
+            <h1>
+               <span class="glyphicon glyphicon-list-alt"></span>
+               Listas de valores
+               <small>{function="count($fsc->resultados)"}</small>
+            </h1>
+            <p class="help-block">
+               Desde aquí puedes crear listas de valores genéricas para
+               usar cualquier parte..
+            </p>
+         </div>
+      </div>
+   </div>
+   <div class="row">
+      {loop="$fsc->resultados"}
+      <div class="col-sm-4 col-lg-3" style="margin-bottom: 5px;" >
+         <a href="{$value->url()}" class="btn btn-sm btn-block btn-{if="!$value->activo"}danger{else}default{/if}">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            &nbsp; {$value->nombre} <span class="badge">{function="$fsc->count_valores_lista($value->id)"}</span>
+         </a>
+      </div>
+      {else}
+      <div class="col-sm-12 col-lg-12">
+         <div class="alert alert-warning">Sin resultados.</div>
+      </div>
+      {/loop}
+   </div>
+</div>
+
+<form name="f_nueva_lista" action="{$fsc->url()}" method="post" class="form-horizontal">
+    <input type="hidden" name="accion" value="nueva_lista" /> 
+    <div class="modal" id="modal_nueva_lista" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+               <h4 class="modal-title">Nueva lista</h4>
+            </div>
+            <div class="modal-body">
+               <div class="form-group">
+                  <label class="col-sm-2 control-label">Código</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="nuevo" placeholder="Código" class="form-control" autocomplete="off" required=""/>
+                 </div>
+               </div>
+                
+               <div class="form-group">
+                  <label class="col-sm-2 control-label">Nombre</label>
+                  <div class="col-sm-10">
+                  
+                  <input type="text" name="nombre" placeholder="Nombre" class="form-control" autocomplete="off" required=""/>
+                  </div>
+               </div>
+                
+               <div class="form-group">
+                  <label class="col-sm-2 control-label">Activo</label>
+                  <div class="col-sm-10">
+                  
+                  <!--<input type="checkbox" name="activo" class="form-control" autocomplete="off"/>-->
+                     <select name="activo" class="form-control">
+                        <option value="1">Si</option>
+                        <option value="0">No</option>
+                     </select>
+                  </div>
+               </div>
+            </div>
+             
+      
+            <div class="modal-footer">
+               <button class="btn btn-sm btn-primary" type="submit">
+                  <span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Guardar
+               </button>
+            </div>
+         </div>
+      </div>
+   </div>
+</form>
+
+{include="footer"}
