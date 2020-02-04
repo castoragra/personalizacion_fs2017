@@ -5,7 +5,7 @@ namespace FacturaScripts\model;
 /**
  * Tabla para campos personalizados
  *
- * @author Cástor Agra <castor.agra@gmail.com>
+ * @author Cástor Agra
  */
 class cp_tabla extends \fs_model {
 

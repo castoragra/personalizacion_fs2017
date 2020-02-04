@@ -1,29 +1,11 @@
 <?php
 
-/*
- * This file is part of facturacion_base
- * Copyright (C) 2015-2017  Carlos Garcia Gomez  neorazorx@gmail.com
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 namespace FacturaScripts\model;
 
 /**
  * Un Valor para un lista de artículos.
  *
- * @author Cástor Agra <castor.agra@gmail.com>
+ * @author Cástor Agra
  */
 class lista_valor extends \fs_model {
 
@@ -67,17 +49,14 @@ class lista_valor extends \fs_model {
 
     protected function install() {
         return "INSERT INTO listas_valores (idlista, codigo, codigo_alternativo, valor, orden, activo) "
-                . " Select lista.id, 'text', 'text', 'Texto', 1, 1 From listas where codlista = 'cboTiposCampos'"
-                . " UNION "
-                . " Select lista.id, 'number', 'number', 'Número entero', 2, 1 From listas where codlista = 'cboTiposCampos'"
-                . " UNION "
-                . " Select lista.id, 'money', 'number', 'Moneda', 3, 1 From listas where codlista = 'cboTiposCampos'"
-                . " UNION "
-                . " Select lista.id, 'date', 'date', 'Fecha', 4, 1 From listas where codlista = 'cboTiposCampos'"
-                . " UNION "
-                . " Select lista.id, 'time', 'time', 'Hora', 5, 1 From listas where codlista = 'cboTiposCampos'"
-                . " UNION "
-                . " Select lista.id, 'list', 'list', 'Lista', 6, 1 From listas where codlista = 'cboTiposCampos'"
+                . "       Select lista.id, 'text', 'text', 'Texto', 1, 1 From listas where codlista = 'cboTiposCampos'"
+                . " UNION Select lista.id, 'number', 'number', 'Número entero', 2, 1 From listas where codlista = 'cboTiposCampos'"
+                . " UNION Select lista.id, 'money', 'number', 'Moneda', 3, 1 From listas where codlista = 'cboTiposCampos'"
+                . " UNION Select lista.id, 'date', 'date', 'Fecha', 4, 1 From listas where codlista = 'cboTiposCampos'"
+                . " UNION Select lista.id, 'time', 'time', 'Hora', 5, 1 From listas where codlista = 'cboTiposCampos'"
+                . " UNION Select lista.id, 'list', 'list', 'Lista', 6, 1 From listas where codlista = 'cboTiposCampos'"
+                . " UNION Select lista.id, '0', '0', 'No', 1, 1 From listas where codlista = 'cboRequerido'"
+                . " UNION Select lista.id, '1', '1', 'Si', 2, 1 From listas where codlista = 'cboRequerido'"
         ;
     }
 

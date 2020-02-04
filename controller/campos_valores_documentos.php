@@ -3,7 +3,7 @@
 /**
  * Description of campos_valores_documentos
  *
- * @author Cástor Agra <castor.agra@gmail.com>
+ * @author Cástor Agra
  */
 class campos_valores_documentos extends fs_controller {
 

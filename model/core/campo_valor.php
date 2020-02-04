@@ -5,7 +5,7 @@ namespace FacturaScripts\model;
 /**
  * Un campo para artículos.
  *
- * @author Cástor Agra <castor.agra@gmail.com>
+ * @author Cástor Agra
  */
 class campo_valor extends \fs_model {
 

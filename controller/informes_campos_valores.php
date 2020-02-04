@@ -1,29 +1,14 @@
 <?php
 
-/**
- * This file is part of FacturaScripts
- * Copyright (C) 2017       Luis Miguel Pérez Romero    <luismipr@gmail.com>
- * Copyright (C) 2017-2020  Carlos Garcia Gomez         <neorazorx@gmail.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- * 
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- */
 require_once 'plugins/facturacion_base/extras/fbase_controller.php';
 require_once 'plugins/facturacion_base/extras/fs_pdf.php';
 require_once 'extras/xlsxwriter.class.php';
 
+
 /**
- * 
+ * Description of informes_campos_valores
+ *
+ * @author Cástor Agra
  */
 class informes_campos_valores extends fs_controller {
 

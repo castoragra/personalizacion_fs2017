@@ -73,15 +73,15 @@ class listas extends fs_controller {
     }
 
     private function share_extensions() {
-        $fsext = new fs_extension();
-        $fsext->name = 'btn_listas';
-        $fsext->from = __CLASS__;
-        $fsext->to = 'ventas_cliente';
-        $fsext->params = '&back=ventas_cliente';
-        $fsext->type = 'tab';
-        $fsext->text = '<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>'
-                . '<span class="hidden-xs">&nbsp; Listas</span>';
-        $fsext->save();
+//        $fsext = new fs_extension();
+//        $fsext->name = 'btn_listas';
+//        $fsext->from = __CLASS__;
+//        $fsext->to = 'ventas_cliente';
+//        $fsext->params = '&back=ventas_cliente';
+//        $fsext->type = 'tab';
+//        $fsext->text = '<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>'
+//                . '<span class="hidden-xs">&nbsp; Listas</span>';
+//        $fsext->save();
     }
 
     public function url_back() {
@@ -90,7 +90,6 @@ class listas extends fs_controller {
         } else
             return parent::url();
     }
-
 
     /// Listas
     private function nueva_lista(&$atr1) {
@@ -110,11 +109,15 @@ class listas extends fs_controller {
     private function eliminar_lista(&$atr1) {
         $lista = $atr1->get($_POST['id']);
         if ($lista) {
+//            if ($lista->codlista == "cboTiposCampos" || $lista->codlista == "cboRequerido") {
+//                $this->new_error_msg('Imposible eliminar la lista.');
+//            } else {
             if ($lista->delete()) {
-                $this->new_message('Lista eliminada correctamente.');
-            } else {
-                $this->new_error_msg('Imposible eliminar la lista.');
-            }
+                    $this->new_message('Lista eliminada correctamente.');
+                } else {
+                    $this->new_error_msg('Imposible eliminar la lista.');
+                }
+    //            }
         }
     }
 
@@ -123,11 +126,15 @@ class listas extends fs_controller {
         $this->lista->nombre = $_POST['nombre'];
         $this->lista->activo = (isset($_POST['activo']) && $_POST['activo']) ? 1 : 0;
 
+//        if ($_POST['codlista'] == "cboTiposCampos" || $_POST['codlista'] == "cboRequerido") {
+//            $this->new_error_msg('Imposible modificar la lista.');
+//        } else {
         if ($this->lista->save()) {
-            $this->new_message('Datos guardados correctamente.');
-        } else {
-            $this->new_error_msg('Error al guardar los datos.');
-        }
+                $this->new_message('Datos guardados correctamente.');
+            } else {
+                $this->new_error_msg('Error al guardar los datos.');
+            }
+    //        }
     }
 
     /// Valores de listas

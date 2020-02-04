@@ -5,7 +5,7 @@ namespace FacturaScripts\model;
 /**
  * Grupos de campos personalizados
  *
- * @author Cástor Agra <castor.agra@gmail.com>
+ * @author Cástor Agra
  */
 class cp_grupo extends \fs_model {
 

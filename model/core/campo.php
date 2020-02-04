@@ -5,7 +5,7 @@ namespace FacturaScripts\model;
 /**
  * Un campo para un controlador.
  *
- * @author Cástor Agra <castor.agra@gmail.com>
+ * @author Cástor Agra
  */
 class campo extends \fs_model {
 
